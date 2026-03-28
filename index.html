@@ -15,9 +15,8 @@
             theme: {
                 extend: {
                     colors: {
-                        // MODIFICATO: Da Deep Blue a Deep Emerald Green
                         primary: '#064e3b', 
-                        accent: '#c9a227', /* Gold/Luxury accent - Invariato */
+                        accent: '#c9a227',
                         light: '#f8fafc',
                         surface: '#ffffff',
                     },
@@ -34,7 +33,6 @@
             background: linear-gradient(135deg, #c9a227 0%, #e8c65a 50%, #c9a227 100%);
         }
         .hero-overlay {
-            /* MODIFICATO: Gradient basato sul nuovo colore primario Verde */
             background: linear-gradient(to right, rgba(6, 78, 59, 0.9), rgba(6, 78, 59, 0.4));
         }
     </style>
@@ -281,7 +279,6 @@
             <h2 class="text-3xl font-serif font-bold text-center mb-16">Il Tuo Percorso</h2>
             <div class="relative">
                 <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -translate-y-1/2 z-0"></div>
-                
                 <div class="grid md:grid-cols-4 gap-8 relative z-10">
                     <div class="bg-white p-6 rounded-xl shadow-md text-center">
                         <div class="w-12 h-12 mx-auto bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mb-4 border-4 border-slate-50">1</div>
@@ -417,16 +414,16 @@
                 </div>
                 
                 <div class="bg-white/5 p-8 rounded-2xl border border-white/10">
-                    <form onsubmit="event.preventDefault(); alert('Grazie! Ti contatteremo presto.');" class="space-y-4">
+                    <form id="whatsappForm" class="space-y-4">
                         <div class="grid grid-cols-2 gap-4">
-                            <input type="text" placeholder="Nome" class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent">
-                            <input type="text" placeholder="Cognome" class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent">
+                            <input type="text" id="nome" placeholder="Nome" required class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent">
+                            <input type="text" id="cognome" placeholder="Cognome" required class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent">
                         </div>
-                        <input type="email" placeholder="Email" class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent">
-                        <input type="tel" placeholder="Telefono" class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent">
-                        <textarea placeholder="Messaggio o Trattamento desiderato" rows="4" class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent"></textarea>
-                        <button type="submit" class="w-full py-4 bg-accent text-slate-900 font-bold rounded-lg hover:bg-yellow-500 transition">
-                            Invia Richiesta
+                        <input type="email" id="email" placeholder="Email" required class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent">
+                        <input type="tel" id="tel" placeholder="Telefono" required class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent">
+                        <textarea id="messaggio" placeholder="Messaggio o Trattamento desiderato" rows="4" class="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-accent"></textarea>
+                        <button type="button" onclick="sendToWhatsApp()" class="w-full py-4 bg-accent text-slate-900 font-bold rounded-lg hover:bg-yellow-500 transition">
+                            PRENOTA <i class="fa-brands fa-whatsapp ml-2"></i>
                         </button>
                     </form>
                 </div>
@@ -445,6 +442,32 @@
             </div>
         </div>
     </footer>
+
+    <script>
+    function sendToWhatsAp() {
+        const nome = document.getElementById('nome').value;
+        const cognome = document.getElementById('cognome').value;
+        const email = document.getElementById('email').value;
+        const tel = document.getElementById('tel').value;
+        const messaggio = document.getElementById('messaggio').value;
+        const numeroWhatsApp = "3556904099488;
+
+        if(!nome || !tel) {
+            alert("Per favore, inserisci Nome e Numero di Telefono.");
+            return;
+        }
+
+        const testo = `*Nuova Richiesta SMALT*%0A` +
+                      `--------------------------%0A` +
+                      `*Nome:* ${nome} ${cognome}%0A` +
+                      `*Email:* ${email}%0A` +
+                      `*Tel:* ${tel}%0A` +
+                      `*Messaggio:* ${messaggio}`;
+
+        const url = `https://wa.me/${numeroWhatsApp}?text=${testo}`;
+        window.open(url, '_blank').focus();
+    }
+    </script>
 
 </body>
 </html>
